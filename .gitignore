@@ -1,0 +1,5 @@
+# Weights
+*.h5
+
+# Jupyter Notebook
+.ipynb_checkpoints
