@@ -2,7 +2,7 @@
 
 ## **Problem statement:**
 
-By analyzing data from a labeled dataset of RGB colored images, the objective is to classify the type of kitchenware present in the pictures.
+By analyzing data from a labeled dataset of RGB images, the objective is to classify the type of kitchenware present in the pictures.
 
 The target classes are:
 
@@ -23,24 +23,24 @@ Kitchenware Classification Kaggle competition: [competition home page](https://w
 
 ## Description of the Project and of the steps to reproduce it
 
-The project was executed in a conda environment and the list of dependencies is in requirements.txt  (sorry 😕 , there are more than the essential dependencies because the conda enviroment is the one I make use of for the entire ml-zoomcamp course 2022 till now (week 7))
+The first part of the project (data preparation and experiments for model selection and hyperparameter tuning) was executed in the cloud by means of the services offered by Saturn Cloud (), to take advantage of a performant GPU processing unit. For the sake of reproducibility, a conda environment (requirements.txt) and a train.py are available here, to reproduce this part of the project in a local environment (but without GPU aidance). For those who only want to check the model deployment, it is sufficient for them to make use of the weights of the final model stored in xception_capstone_08_0_925.h5 and of service.py and test.py to test the service in local, as explained in detail below. 
 
 * *notebook.ipynb* contains EDA and the final Model selection.
   sandbox.ipynb contains a messy :) ,constituted by various experiments that eventually converged in the notebook.ipynb,
-* *train.py* contains the logic for training from CLI the final model detrmined in notebook.ipynb
+* *train.py* contains the logic for training from CLI the final model determined in notebook.ipynb
 
 for the deployment of the model as a service BentoML framework has been used. In particular, service.py and bentofile.yaml are part of the depolyment with bentoml.
 
 * *service.py* contains the logic for the prediction service.
 * *bentofile.yaml* contains the dependencies.
 
-to try in localhost the service:
+To test the inference service in a local environment:
 
 `bentoml serve service.py:svc --reload`
 
-then the service can be checked through a swaggerUI interface in the browser
+then the service can be tested through a swaggerUI interface in the browser
 
-by executing:
+By executing:
 
 `bentoml build`
 
