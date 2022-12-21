@@ -13,17 +13,19 @@ The target classes are:
 * knife
 * glass
 
-## **Dataset Information:**
-
-The dataset consists of 5559 labeled images, splitted in train (80%) and validation(20%). The test set has been hold out, being object of a competition (see dataset origin below). The labeled images were produced through toloka.ai services.
-
 ## **Dataset Origin:**
 
-Kitchenware Classification Kaggle competition: [competition home page](https://www.kaggle.com/competitions/kitchenware-classification/overview)
+Kitchenware Classification Kaggle competition: [[competition home page](https://www.kaggle.com/competitions/kitchenware-classification/overview)] (https://www.kaggle.com/competitions/kitchenware-classification/overview)
+
+The instructions to download the dataset are in the Data section (they are also included in the beginnning of the notebook in thid repo)
+
+## **Dataset Information:**
+
+The dataset consists of 5559 labeled images, that in the notebook are splitted in train (80%) and validation(20%). The test set has been hold out, being object of the Kaggle competition (see dataset origin below). The labeled images were produced through toloka.ai services.
 
 ## Description of the Project and of the steps to reproduce it
 
-The first part of the project (data preparation and experiments for model selection and hyperparameter tuning) was executed in the cloud by means of the services offered by Saturn Cloud (), to take advantage of a performant GPU processing unit. For the sake of reproducibility, a conda environment (requirements.txt) and a train.py are available here, to reproduce this part of the project in a local environment (but without GPU aidance). For those who only want to check the model deployment, it is sufficient for them to make use of the weights of the final model stored in xception_capstone_08_0_925.h5 and of service.py and test.py to test the service in local, as explained in detail below. 
+The first part of the project (data preparation and experiments for model selection and hyperparameter tuning) was executed in the cloud by means of the services offered by Saturn Cloud (), to take advantage of a performant GPU processing unit. For the sake of reproducibility, a conda environment (requirements.txt) and a train.py are available here, to reproduce this part of the project in a local environment (but without GPU aidance). For those who only want to check the model deployment, it is sufficient for them to make use of the weights of the final model stored in xception_capstone_08_0_925.h5 and of service.py and test.py to test the service in local, as explained in detail below.
 
 * *notebook.ipynb* contains EDA and the final Model selection.
   sandbox.ipynb contains a messy :) ,constituted by various experiments that eventually converged in the notebook.ipynb,
