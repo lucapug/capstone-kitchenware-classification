@@ -17,7 +17,7 @@ The target classes are:
 
 Kitchenware Classification Kaggle competition: [[competition home page](https://www.kaggle.com/competitions/kitchenware-classification/overview)] (https://www.kaggle.com/competitions/kitchenware-classification/overview)
 
-The instructions to download the dataset are in the Data section (they are also included in the beginnning of the notebook in thid repo)
+The instructions to download the dataset are in the Data section (they are also included in the beginning of notebook.py)
 
 ## **Dataset Information:**
 

@@ -3,3 +3,6 @@
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+# data dir (size 1,7 GB, can be download from Kaggle)
+data/
