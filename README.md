@@ -17,7 +17,7 @@ The target classes are:
 
 Kitchenware Classification Kaggle competition: [[competition home page](https://www.kaggle.com/competitions/kitchenware-classification/overview)] (https://www.kaggle.com/competitions/kitchenware-classification/overview)
 
-The instructions to download the dataset are in the Data section (they are also included in the beginning of notebook.py)
+The instructions to download the dataset are in the Data section of the competition page (they are also included in the beginning of notebook.py)
 
 ## **Dataset Information:**
 
@@ -25,7 +25,7 @@ The dataset consists of 5559 labeled images, that in the notebook are splitted i
 
 ## Description of the Project and of the steps to reproduce it
 
-The first part of the project (data preparation and experiments for model selection and hyperparameter tuning) was executed in the cloud by means of the services offered by Saturn Cloud (saturncloud.io), to take advantage of a performant GPU processing unit. For the sake of reproducibility, a conda environment (requirements.txt) and a train.py are available here, to reproduce this part of the project in a local environment (but without GPU aidance). 
+The first part of the project (data preparation and experiments for model selection and hyperparameter tuning) was executed in the cloud by means of the services offered by Saturn Cloud (saturncloud.io), to take advantage of a performant GPU processing unit. For the sake of reproducibility, a conda environment (requirements.txt) and a train.py are available here, to reproduce this part of the project in a local environment (but without GPU aidance).
 
 * *notebook.ipynb* is an extension of the starter notebook given in the Kaggle competition. In particular with respect to the starter notebook, experiments were made with different hyperparameters (learning rates, regularization through dropout, data augmentation and fine tuning by unfreezing part of the weights of the base model (xception model)
 * *train.py* contains the logic for training from CLI the final model determined in notebook.ipynb
@@ -55,7 +55,7 @@ where xception_final:xxxxxxxxxxxxxxx is the tag of the bento archive (as an exam
 
 now to serve the prediction as a containerized service, execute:
 
-`docker run -it --rm -p 3000:3000 midterm_classifier:oah24sc6xgqjouon`
+`docker run -it --rm -p 3000:3000 xception_final:oah24sc6xgqjouon`
 (docker has to be installed to execute the last command.)
 
 As a last note, I made this project in a Linux environment (Ubuntu 20.04) over a Windows OS (win11) by using WSL2 virtualization. Docker Desktop was installed in Windows and VSCode was used as IDE.
