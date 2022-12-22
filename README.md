@@ -25,7 +25,7 @@ The dataset consists of 5559 labeled images, that in the notebook are splitted i
 
 ## Description of the Project and of the steps to reproduce it
 
-The first part of the project (data preparation and experiments for model selection and hyperparameter tuning) was executed in the cloud by means of the services offered by Saturn Cloud (saturncloud.io), to take advantage of a performant GPU processing unit. For the sake of reproducibility, a conda environment (requirements.txt) and a train.py are available here, to reproduce this part of the project in a local environment (but without GPU aidance). For those who only want to check the model deployment, it is sufficient for them to make use of the weights of the final model stored in xception_capstone_08_0_925.h5 and of service.py and test.py to test the service in local, as explained in detail below.
+The first part of the project (data preparation and experiments for model selection and hyperparameter tuning) was executed in the cloud by means of the services offered by Saturn Cloud (saturncloud.io), to take advantage of a performant GPU processing unit. For the sake of reproducibility, a conda environment (requirements.txt) and a train.py are available here, to reproduce this part of the project in a local environment (but without GPU aidance). 
 
 * *notebook.ipynb* is an extension of the starter notebook given in the Kaggle competition. In particular with respect to the starter notebook, experiments were made with different hyperparameters (learning rates, regularization through dropout, data augmentation and fine tuning by unfreezing part of the weights of the base model (xception model)
 * *train.py* contains the logic for training from CLI the final model determined in notebook.ipynb
