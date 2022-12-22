@@ -1,13 +1,17 @@
-#!/usr/bin/env python
+ #!/usr/bin/env python
 # coding: utf-8
 
 import numpy as np
 import pandas as pd
 import tensorflow as tf
 
+
 from tensorflow import keras
 
+from tensorflow.keras.applications.xception import Xception
+from tensorflow.keras.applications.xception import preprocess_input
 
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 df_train_full = pd.read_csv('data/train.csv', dtype={'Id': str})
 df_train_full['filename'] = 'data/images/' + df_train_full['Id'] + '.jpg'
@@ -19,16 +23,8 @@ df_train = df_train_full[:val_cutoff]
 df_val = df_train_full[val_cutoff:]
 
 
-
-from tensorflow.keras.applications.xception import Xception
-from tensorflow.keras.applications.xception import preprocess_input
-
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-
-
 # ### DATA AUGMENTATION ###
 input_size = 299
-
 
 train_datagen = ImageDataGenerator(
     preprocessing_function=preprocess_input,
@@ -62,6 +58,7 @@ val_generator = val_datagen.flow_from_dataframe(
 )
 
 
+#first round: fitting with all base_model weights freezed
 base_model = Xception(
     weights='imagenet',
     input_shape=(input_size, input_size, 3),
@@ -81,7 +78,8 @@ drop = keras.layers.Dropout(rate=0.5)(inner)
 outputs = keras.layers.Dense(6)(drop)
 
 model = keras.Model(inputs, outputs)
-    
+
+
 model.compile(
     optimizer=keras.optimizers.Adam(learning_rate=0.001),
     loss=keras.losses.CategoricalCrossentropy(from_logits=True),
@@ -92,7 +90,7 @@ model.compile(
 model.fit(train_generator, epochs=5, verbose=1, validation_data=val_generator)
 
 
-#unfreeze the last 32 layers of the base model for doing a partial fine tuning 
+#second round (fine tuning): unfreeze the last 32 layers of the base model for doing a partial fine tuning 
 base_model.trainable = True
 for layer in base_model.layers[:-32]:
   layer.trainable = False
@@ -107,7 +105,7 @@ model.compile(
 
 callbacks = [
     keras.callbacks.ModelCheckpoint(
-        "xception_final_{epoch:02d}_{val_accuracy:.3f}.h5",
+        "kitchenware_final_{epoch:02d}_{val_accuracy:.3f}.h5",
         monitor="val_accuracy",
         verbose=1,
         save_best_only=True,
@@ -123,13 +121,55 @@ callbacks = [
 
 history_6 = model.fit(train_generator, epochs=50, verbose=0, validation_data=val_generator, callbacks=callbacks)
 
-# Now let's use this model to predict the labels for test data
 
-model = keras.models.load_model('xception_final_03_0.964.h5') #final model for kaggle (dropout, augmentation and partial tuning, increased input_size to 299)
+#predictions for a single image (useful for testing service deployment)
+
+from tensorflow.keras.preprocessing import image
+
+#from tensorflow.keras.applications.xception import decode_predictions
+
+img_path = 'data/images/3962.jpg'
+
+img = image.load_img(img_path, target_size=(299, 299))
+
+x = image.img_to_array(img)
+x = np.expand_dims(x, axis=0)
+x = preprocess_input(x)
+
+preds = model.predict(x)
+#print('Keras Predicted:', decode_predictions(preds, top=6)[0])
+print(preds)
 
 
-# ### BENTO ML ###
 
-import bentoml
+df_test = pd.read_csv('data/test.csv', dtype={'Id': str})
+df_test['filename'] = 'data/images/' + df_test['Id'] + '.jpg'
 
-bentoml.keras.save_model("keras_xception_final", model)
+
+test_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
+
+#class_mode = 'input'means that in the label arrays that are returned each label will be will be images identical to input images
+#useful for fitting autoencoders
+
+test_generator = test_datagen.flow_from_dataframe(
+    df_test,
+    x_col='filename',
+    class_mode='input',
+    #target_size=(150, 150),
+    target_size=(input_size, input_size),
+    batch_size=32,
+    shuffle=False
+)
+
+
+y_pred = model.predict(test_generator)
+
+
+classes = np.array(list(train_generator.class_indices.keys()))
+
+
+predictions = classes[y_pred.argmax(axis=1)]
+
+
+
+

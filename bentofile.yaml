@@ -1,0 +1,10 @@
+service: "service.py:svc"
+labels:
+  owner: lucapug
+  project: mlzoomcamp_capstone
+include:
+  - "*.py"
+python:
+  packages:
+    - tensorflow
+    - pillow
